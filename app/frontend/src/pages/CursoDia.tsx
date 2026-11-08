@@ -113,10 +113,13 @@ export default function CursoDia() {
   const salonAnterior = posicion > 0 ? salones[posicion - 1] : null;
   const salonSiguiente = posicion >= 0 && posicion < salones.length - 1 ? salones[posicion + 1] : null;
 
+  // Sabado y domingo: no hay clase, asi que no se pide nada al servidor.
+  const descanso = esFinDeSemana(fecha);
   useEffect(() => {
-    setCargando(true);
     setError('');
     setDatos(null);
+    if (esFinDeSemana(fecha)) { setCargando(false); return; }
+    setCargando(true);
     api.get<Respuesta>(`/api/reports/semana?grade=${encodeURIComponent(grade)}&from=${fecha}&to=${fecha}`)
       .then(setDatos)
       .catch(() => setError('No se pudo cargar el curso. Requiere conexion.'))
@@ -127,6 +130,22 @@ export default function CursoDia() {
   const bloques = [...(dia?.bloques ?? [])].sort((a, b) => a.blockNo - b.blockNo);
   const marcaDe = (studentId: number, blockNo: number) =>
     datos?.marcas.find((m) => m.studentId === studentId && m.blockNo === blockNo && m.classDate === fecha);
+
+  if (descanso) {
+    const nombre = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'][
+      new Date(`${fecha}T12:00`).getDay()];
+    return (
+      <main className="card ancha">
+        <p><Link to="/">« Volver al inicio</Link></p>
+        <span className="eyebrow">Curso {grade}</span>
+        <h1>Hoy es {nombre}, descansa</h1>
+        <p className="meta" role="status">No hay clase este día. Las clases vuelven el lunes.</p>
+        <button type="button" className="secundario" onClick={() => setFecha(diaHabil(fecha, -1))}>
+          Ir al último día de clase
+        </button>
+      </main>
+    );
+  }
 
   return (
     <main className="card ancha">

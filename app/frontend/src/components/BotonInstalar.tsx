@@ -50,5 +50,12 @@ export default function BotonInstalar() {
     );
   }
 
-  return null;
+  // Android/escritorio sin evento: el navegador aun no ofrece el boton. Se indica donde
+  // esta la opcion en el menu, para que no parezca que la app no se puede instalar.
+  return (
+    <p className="instalar meta">
+      Para usarla sin señal: abra el menú del navegador (⋮) y elija{' '}
+      <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.
+    </p>
+  );
 }
