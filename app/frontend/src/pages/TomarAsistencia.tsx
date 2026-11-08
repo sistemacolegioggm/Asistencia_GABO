@@ -10,6 +10,9 @@ import SelectorFecha from '../components/SelectorFecha';
 import { ordenCurso } from '../lib/ordenCurso';
 
 const hoyISO = () => new Date().toLocaleDateString('en-CA');   // YYYY-MM-DD en hora local
+const esFinDeSemana = (iso: string) => [0, 6].includes(new Date(`${iso}T12:00`).getDay());
+const nombreDia = (iso: string) =>
+  ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'][new Date(`${iso}T12:00`).getDay()];
 
 /** true en el ancho donde la planilla y el panel se apilan (mismo corte que el CSS). */
 function useEsMovil(): boolean {
@@ -367,7 +370,11 @@ export default function TomarAsistencia() {
       {avisoEnvio && <p className="banner pendiente" role="status">{avisoEnvio}</p>}
 
       {!lectivo
-        ? <p className="meta">Elija un dia lectivo para tomar asistencia.</p>
+        ? (esFinDeSemana(fecha)
+          ? <p className="descanso" role="status">
+              Hoy es {nombreDia(fecha)}, descansa: no hay clase. Las clases vuelven el lunes.
+            </p>
+          : <p className="meta">Elija un dia lectivo para tomar asistencia.</p>)
         : blockId === null
           ? <p>Elija curso y bloque para tomar la asistencia.</p>
           : (
