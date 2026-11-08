@@ -9,6 +9,10 @@ const ETIQUETA_TIPO: Record<string, string> = {
 
 type Props = { valor: string; onChange: (fecha: string) => void; max: string };
 
+const finDeSemana = (iso: string) => [0, 6].includes(new Date(`${iso}T12:00`).getDay());
+const nombreDia = (iso: string) =>
+  ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'][new Date(`${iso}T12:00`).getDay()];
+
 export default function SelectorFecha({ valor, onChange, max }: Props) {
   const [dia, setDia] = useState<SchoolDay | undefined>();
   const [consultado, setConsultado] = useState(false);
@@ -42,7 +46,12 @@ export default function SelectorFecha({ valor, onChange, max }: Props) {
           ))}
         </div>
       </div>
-      {consultado && !lectivo && (
+      {consultado && !lectivo && !dia && finDeSemana(valor) && (
+        <p role="status" className="banner no-lectivo ocupa-todo">
+          Hoy es {nombreDia(valor)}, descansa: no hay clase. Las clases vuelven el lunes.
+        </p>
+      )}
+      {consultado && !lectivo && (dia || !finDeSemana(valor)) && (
         <p role="alert" className="banner no-lectivo ocupa-todo">
           {dia
             ? `El ${new Date(`${valor}T00:00`).toLocaleDateString('es-CO')} es ${ETIQUETA_TIPO[dia.dayType] ?? 'no lectivo'}`
