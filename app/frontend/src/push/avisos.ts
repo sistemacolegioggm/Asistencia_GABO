@@ -48,12 +48,25 @@ function aBytes(base64url: string): Uint8Array<ArrayBuffer> {
   return out;
 }
 
+function mismaClave(actual: ArrayBuffer | null, esperada: Uint8Array<ArrayBuffer>): boolean {
+  if (!actual) return false;
+  const a = new Uint8Array(actual);
+  return a.length === esperada.length && a.every((v, i) => v === esperada[i]);
+}
+
 /** Crea o recupera la suscripcion de este dispositivo y la guarda en el servidor. */
 async function suscribir(): Promise<void> {
   const reg = await navigator.serviceWorker.ready;
   const { key } = await api.get<{ key: string }>('/api/push/vapid-public-key');
-  const sub = (await reg.pushManager.getSubscription())
-    ?? await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: aBytes(key) });
+  const clave = aBytes(key);
+  let sub = await reg.pushManager.getSubscription();
+  // Una suscripcion hecha con otras claves VAPID (p. ej. antes de rotarlas) no recibe avisos:
+  // se descarta y se crea una nueva con la clave actual.
+  if (sub && !mismaClave(sub.options.applicationServerKey, clave)) {
+    await sub.unsubscribe();
+    sub = null;
+  }
+  sub ??= await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: clave });
   const j = sub.toJSON();
   await api.post('/api/push/subscriptions', { endpoint: j.endpoint, keys: j.keys });
 }
