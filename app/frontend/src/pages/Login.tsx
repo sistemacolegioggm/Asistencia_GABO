@@ -41,7 +41,7 @@ export default function Login() {
           <div>
             <span className="eyebrow">Planilla de asistencia</span>
             <h1>Asistencia GGM</h1>
-            <p className="meta">Colegio Gabriel Garcia Marquez</p>
+            <p className="meta">Colegio Gabriel García Márquez</p>
           </div>
         </header>
         <label htmlFor="email">Correo institucional</label>
