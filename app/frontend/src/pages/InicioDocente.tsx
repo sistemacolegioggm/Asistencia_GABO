@@ -39,6 +39,15 @@ async function enCola(blockId: number, fecha: string): Promise<number> {
   }
 }
 
+const DIAS_SEMANA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+/** Texto del día sin clase: el motivo del festivo, o el día de descanso si no hay motivo. */
+function textoSinClase(dia: Dia): string {
+  if (dia.motivo) return `Hoy no hay clase: ${dia.motivo}.`;
+  const d = new Date(`${dia.fecha}T12:00`).getDay();
+  return [0, 6].includes(d) ? `Hoy es ${DIAS_SEMANA[d]}, descansa: no hay clase.` : 'Hoy no hay clase.';
+}
+
 export default function InicioDocente() {
   const [dia, setDia] = useState<Dia | null>(null);
   const [error, setError] = useState('');
@@ -101,7 +110,7 @@ export default function InicioDocente() {
 
       {dia && !dia.lectivo && (
         <p className="aviso-no-lectivo">
-          Hoy no hay clase{dia.motivo ? `: ${dia.motivo}` : ''}.
+          {textoSinClase(dia)}
         </p>
       )}
 

@@ -10,9 +10,6 @@ import SelectorFecha from '../components/SelectorFecha';
 import { ordenCurso } from '../lib/ordenCurso';
 
 const hoyISO = () => new Date().toLocaleDateString('en-CA');   // YYYY-MM-DD en hora local
-const esFinDeSemana = (iso: string) => [0, 6].includes(new Date(`${iso}T12:00`).getDay());
-const nombreDia = (iso: string) =>
-  ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'][new Date(`${iso}T12:00`).getDay()];
 
 /** true en el ancho donde la planilla y el panel se apilan (mismo corte que el CSS). */
 function useEsMovil(): boolean {
@@ -320,10 +317,10 @@ export default function TomarAsistencia() {
     }
   }
 
-  const motivoDeshabilitado = blockId === null
-    ? 'Para enviar, elija un curso y un bloque.'
-    : !lectivo
-      ? 'La fecha elegida no es un día lectivo.'
+  const motivoDeshabilitado = !lectivo
+    ? 'La fecha elegida no es un día lectivo.'
+    : blockId === null
+      ? 'Para enviar, elija un curso y un bloque.'
       : students.length === 0
         ? 'Este curso no tiene estudiantes descargados.'
         : '';
@@ -378,11 +375,7 @@ export default function TomarAsistencia() {
       {avisoEnvio && <p className="banner pendiente" role="status">{avisoEnvio}</p>}
 
       {!lectivo
-        ? (esFinDeSemana(fecha)
-          ? <p className="descanso" role="status">
-              Hoy es {nombreDia(fecha)}, descansa: no hay clase. Las clases vuelven en el siguiente día de clase.
-            </p>
-          : <p className="meta">Elija un dia lectivo para tomar asistencia.</p>)
+        ? null
         : blockId === null
           ? <p>Elija curso y bloque para tomar la asistencia.</p>
           : (
