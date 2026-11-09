@@ -27,23 +27,23 @@ describe('SelectorFecha', () => {
     // el primer render aun no sabe que dia es. findByRole devuelve ese primer estado
     // y el test se vuelve inestable segun lo rapido que resuelva la base.
     await waitFor(() => {
-      const aviso = screen.getByRole('alert');
-      expect(aviso).toHaveTextContent(/festivo/i);
-      expect(aviso).toHaveTextContent(/Asuncion/i);
-      expect(aviso).toHaveTextContent(/no se toma asistencia/i);
+      const aviso = screen.getByRole('status');
+      expect(aviso).toHaveTextContent('Ese día es festivo: no hay clase. No se toma asistencia.');
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     });
   });
 
   it('en un dia suspendido tambien avisa', async () => {
     render(<SelectorFecha valor="2026-08-19" onChange={() => {}} max="2026-08-20" />);
     await waitFor(() =>
-      expect(screen.getByRole('alert')).toHaveTextContent(/suspendido|Paro/i));
+      expect(screen.getByRole('status')).toHaveTextContent(/día suspendido/i));
   });
 
   it('una fecha que no esta en el calendario descargado pide actualizar', async () => {
     render(<SelectorFecha valor="2027-03-01" onChange={() => {}} max="2027-12-31" />);
     await waitFor(() =>
-      expect(screen.getByRole('alert')).toHaveTextContent(/no esta en el calendario/i));
+      expect(screen.getByRole('status')).toHaveTextContent(
+        'No tenemos el calendario de ese día. Conéctese a internet y vuelva a abrir la app.'));
   });
 
   it('los atajos solo ofrecen dias lectivos, nunca festivos ni suspendidos', async () => {

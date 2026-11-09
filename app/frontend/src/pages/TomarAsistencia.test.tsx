@@ -223,7 +223,7 @@ describe('TomarAsistencia', () => {
     });
   });
 
-  it('la opcion dice tambien el dia', async () => {
+  it('la opcion dice Bloque N y nunca Dia N', async () => {
     render(<MemoryRouter><TomarAsistencia /></MemoryRouter>);
     await waitFor(() => expect(screen.getByLabelText(/curso/i)).toBeInTheDocument());
     await userEvent.clear(screen.getByLabelText(/fecha/i));
@@ -231,7 +231,8 @@ describe('TomarAsistencia', () => {
     await userEvent.selectOptions(screen.getByLabelText(/curso/i), '601');
 
     await waitFor(() =>
-      expect(screen.getByLabelText(/bloque/i)).toHaveTextContent(/dia 1/i));
+      expect(screen.getByLabelText(/bloque/i)).toHaveTextContent(/Bloque 4\./));
+    expect(screen.getByLabelText(/bloque/i)).not.toHaveTextContent(/d[ií]a \d/i);
   });
 
   async function elegirCursoYBloque() {
@@ -294,6 +295,7 @@ describe('TomarAsistencia', () => {
     render(<MemoryRouter><TomarAsistencia /></MemoryRouter>);
     await waitFor(() => expect(screen.getByLabelText(/curso/i)).toBeInTheDocument());
     expect(screen.getByRole('button', { name: /enviar asistencia/i })).toBeDisabled();
+    expect(screen.getByText('Para enviar, elija un curso y un bloque.')).toBeInTheDocument();
   });
 
   it('enviar conserva el motivo que el docente escribio', async () => {
@@ -409,9 +411,9 @@ describe('TomarAsistencia', () => {
 
     // Este es el aviso que pedian en el colegio: offline no se tocan 40 botones y
     // "esperemos que se haya guardado"; el docente debe saber que el trabajo quedo.
-    expect(await screen.findByText(/guardada en el telefono/i)).toBeInTheDocument();
+    expect(await screen.findByText(/guardada en el teléfono/i)).toBeInTheDocument();
     expect(screen.getByRole('alertdialog')).toHaveTextContent(/Guardada sin internet/);
-    expect(screen.getByText(/se subira sola cuando haya conexion/i)).toBeInTheDocument();
+    expect(screen.getByText(/se subirá sola cuando haya conexión/i)).toBeInTheDocument();
   });
 
   it('con internet muy lento muestra la carga y luego dice que quedo guardada', async () => {
