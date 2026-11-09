@@ -19,7 +19,7 @@ const DESTINOS: Destino[] = [
   { a: '/consultas',   texto: 'Consultas',      roles: ['ADMIN', 'DOCENTE', 'ORIENTADOR'] },
   { a: '/dashboard',   texto: 'Tablero',        roles: ['ADMIN', 'ORIENTADOR'] },
   { a: '/videos',      texto: 'Videos tutoriales', roles: ['ADMIN', 'DOCENTE', 'ORIENTADOR', 'ACUDIENTE'] },
-  { a: '/admin',       texto: 'Administracion', roles: ['ADMIN'] },
+  { a: '/admin',       texto: 'Administración', roles: ['ADMIN'] },
 ];
 
 let ultimaPrecarga = 0;
@@ -64,7 +64,7 @@ export default function Menu() {
       {/* Barra superior solo en movil: lo esencial y las tres rayitas. El menu completo
           se despliega desde la izquierda como cajon. */}
       <header className="barra-movil">
-        <button type="button" className="hamburguesa" aria-label="Abrir menu"
+        <button type="button" className="hamburguesa" aria-label="Abrir menú"
                 aria-expanded={abierto} aria-controls="menu-lateral"
                 onClick={() => setAbierto(!abierto)}>
           <span aria-hidden="true">☰</span>

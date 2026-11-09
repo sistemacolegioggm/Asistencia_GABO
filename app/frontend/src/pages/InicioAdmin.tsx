@@ -1,3 +1,4 @@
+import { mensajeConsulta } from '../lib/errorConsulta';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, getSession } from '../api/client';
@@ -101,6 +102,7 @@ function TablaHoyPorCurso({ cursos }: { cursos: CursoHoy[] }) {
           })}
         </tbody>
       </table>
+      <p className="meta">P = Presente, T = Tarde, F = Falta, E = Evasión</p>
     </div>
   );
 }
@@ -119,7 +121,7 @@ export default function InicioAdmin() {
       api.get<Novedades>('/api/reports/novedades?dias=0&limite=500'),
     ])
       .then(([h, n]) => { setHoy(h); setNovedades(n); })
-      .catch(() => setError('No se pudo cargar el resumen de hoy. Requiere conexion.'))
+      .catch((e) => setError(mensajeConsulta(e)))
       .finally(() => setCargando(false));
   }, []);
 

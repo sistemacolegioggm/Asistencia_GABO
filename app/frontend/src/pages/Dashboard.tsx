@@ -1,3 +1,4 @@
+import { mensajeConsulta } from '../lib/errorConsulta';
 import { useEffect, useState } from 'react';
 import { api } from '../api/client';
 import type { Dashboard as DashboardData } from '../api/contract';
@@ -21,9 +22,9 @@ export function rutaDashboard(dias: number, grade?: string, hoy = new Date()): s
 }
 
 const RANGOS = [
-  { etiqueta: 'Ultimos 7 dias', dias: 7 },
-  { etiqueta: 'Ultimos 30 dias', dias: 30 },
-  { etiqueta: 'Ultimos 90 dias', dias: 90 },
+  { etiqueta: 'Últimos 7 días', dias: 7 },
+  { etiqueta: 'Últimos 30 días', dias: 30 },
+  { etiqueta: 'Últimos 90 días', dias: 90 },
 ];
 
 export default function Dashboard() {
@@ -48,7 +49,7 @@ export default function Dashboard() {
                 + (grade ? `&grade=${encodeURIComponent(grade)}` : '');
     api.get<DashboardData>(`/api/reports/dashboard?${query}`)
        .then(setDatos)
-       .catch(() => setError('No se pudo cargar el tablero. Requiere conexion.'))
+       .catch((e) => setError(mensajeConsulta(e)))
        .finally(() => setCargando(false));
   }, [desde, hasta, grade]);
 

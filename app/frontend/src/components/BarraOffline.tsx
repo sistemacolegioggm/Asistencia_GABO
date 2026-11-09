@@ -48,13 +48,13 @@ export default function BarraOffline() {
     ? {
         modo: 'sin-red',
         mensaje: pendientes > 0
-          ? `Sin internet · ${marcas(pendientes)} guardada${pendientes === 1 ? '' : 's'} aqui, suben solas al reconectar`
+          ? `Sin internet · ${marcas(pendientes)} guardada${pendientes === 1 ? '' : 's'} aquí, suben solas al reconectar`
           : 'Sin internet · puede seguir tomando lista, se guarda en este dispositivo',
       }
     : sinDatos
       ? {
           modo: 'sin-red',
-          mensaje: 'En linea · faltan los datos del colegio, espere a que terminen de bajar',
+          mensaje: 'En línea · faltan los datos del colegio, espere a que terminen de bajar',
         }
       : pendientes > 0
         // Con marcas rechazadas, prometer que estan "subiendo" seria mentira: el
@@ -62,15 +62,15 @@ export default function BarraOffline() {
         ? conError > 0
           ? {
               modo: 'aviso',
-              mensaje: `En linea · ${marcas(pendientes)} rechazada${pendientes === 1 ? '' : 's'} por el servidor, corregir o reintentar`,
+              mensaje: `En línea · ${marcas(pendientes)} ${pendientes === 1 ? 'no guardada' : 'no guardadas'}. El servidor no guardó este cambio. Revise el dato y toque Reintentar.`,
             }
-          : { modo: 'subiendo', mensaje: `En linea · subiendo ${marcas(pendientes)}...` }
+          : { modo: 'subiendo', mensaje: `En línea · subiendo ${marcas(pendientes)}...` }
         : datosViejos
           ? {
               modo: 'aviso',
-              mensaje: `En linea · los datos del colegio son de hace ${datos!.dias} dias`,
+              mensaje: `En línea · los datos del colegio son de hace ${datos!.dias} días`,
             }
-          : { modo: 'en-linea', mensaje: 'En linea · todo subido' };
+          : { modo: 'en-linea', mensaje: 'En línea · todo subido' };
 
   return (
     <div className={`barra-offline ${modo}`} role="status">

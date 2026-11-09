@@ -33,7 +33,7 @@ describe('BarraOffline', () => {
     render(<BarraOffline />);
     const franja = await screen.findByRole('status');
     await waitFor(() => expect(franja).toHaveClass('en-linea'));
-    expect(franja).toHaveTextContent(/En linea · todo subido/);
+    expect(franja).toHaveTextContent(/En línea · todo subido/);
     // En el caso normal no se ofrece reintentar: no hay nada que reintentar.
     expect(screen.queryByRole('button', { name: /reintentar/i })).toBeNull();
   });
@@ -57,7 +57,7 @@ describe('BarraOffline', () => {
     mockDatos.estudiantes = 10;
     render(<BarraOffline />);
     const franja = await screen.findByRole('status');
-    expect(franja).toHaveTextContent(/4 marcas guardadas aqui/);
+    expect(franja).toHaveTextContent(/4 marcas guardadas aquí/);
     expect(franja).toHaveTextContent(/suben solas al reconectar/);
   });
 
@@ -81,7 +81,7 @@ describe('BarraOffline', () => {
     mockDatos.estudiantes = 10;
     render(<BarraOffline />);
     const franja = await screen.findByRole('status');
-    expect(franja).toHaveTextContent(/3 marcas rechazadas/);
+    expect(franja).toHaveTextContent(/3 marcas no guardadas/);
     expect(franja).not.toHaveTextContent(/subiendo/);
     // Reintentar si aparece aqui: es un rechazo del servidor, no falta de señal.
     expect(screen.getByRole('button', { name: /reintentar/i })).toBeInTheDocument();
@@ -111,7 +111,7 @@ describe('BarraOffline', () => {
     mockDatos.dias = 7;
     mockDatos.estudiantes = 10;
     render(<BarraOffline />);
-    expect(await screen.findByText(/son de hace 7 dias/)).toBeTruthy();
+    expect(await screen.findByText(/son de hace 7 días/)).toBeTruthy();
   });
 
   it('tras una descarga exitosa sin marcar nada, deja de decir que no hay datos al recuperar visibilidad', async () => {
@@ -130,6 +130,6 @@ describe('BarraOffline', () => {
     document.dispatchEvent(new Event('visibilitychange'));
 
     await waitFor(() =>
-      expect(screen.getByRole('status')).toHaveTextContent(/En linea · todo subido/));
+      expect(screen.getByRole('status')).toHaveTextContent(/En línea · todo subido/));
   });
 });
