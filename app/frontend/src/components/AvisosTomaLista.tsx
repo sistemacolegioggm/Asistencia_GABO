@@ -32,8 +32,8 @@ export default function AvisosTomaLista() {
     return (
       <section className="aviso-push" aria-label="Avisos">
         <p>
-          Los avisos de clase están bloqueados en este navegador. Para activarlos, abre los
-          ajustes del sitio y permite las notificaciones de esta app.
+          Los avisos de clase están bloqueados en este navegador. Toque el candado junto a la
+          dirección de la página, luego Notificaciones, elija Permitir y recargue la página.
         </p>
       </section>
     );
