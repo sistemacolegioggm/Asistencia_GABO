@@ -140,8 +140,8 @@ function PorCurso({ from, to, fechas, cursos, setError }: Comun & { cursos: stri
     setError('');
     try {
       await bajarExcel(`${query()}&tipo=${tipo}`, `${tipo}_${grade || 'todos'}_${from}_${to}.xlsx`);
-    } catch {
-      setError('No se pudo descargar el informe. Requiere conexion.');
+    } catch (e) {
+      setError(mensajeConsulta(e));
     }
   }
 
@@ -157,7 +157,7 @@ function PorCurso({ from, to, fechas, cursos, setError }: Comun & { cursos: stri
         <label htmlFor="tipo">Informe</label>
         <select id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)}>
           <option value="resumen">Resumen por estudiante</option>
-          <option value="matriz">Asistencia dia por dia</option>
+          <option value="matriz">Asistencia día por día</option>
           <option value="inasistencias">Consolidado de inasistencias</option>
           <option value="completo">Detalle completo (cada marca, con docente y hora)</option>
         </select>
@@ -244,8 +244,8 @@ function PorEstudiante({ from, to, fechas, setError }: Comun) {
     try {
       await bajarExcel(`tipo=individual&studentId=${elegido.id}&from=${from}&to=${to}`,
                        `informe_${elegido.documentId}_${from}_${to}.xlsx`);
-    } catch {
-      setError('No se pudo descargar el informe. Requiere conexion.');
+    } catch (e) {
+      setError(mensajeConsulta(e));
     }
   }
 
@@ -488,8 +488,8 @@ function Tomas({ from, to, fechas, cursos, setError }: Comun & { cursos: string[
     setError('');
     try {
       await bajarExcel(`${query()}&tipo=tomas`, `tomas_${grade || 'todos'}_${from}_${to}.xlsx`);
-    } catch {
-      setError('No se pudo descargar el informe. Requiere conexion.');
+    } catch (e) {
+      setError(mensajeConsulta(e));
     }
   }
 

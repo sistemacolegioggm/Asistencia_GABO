@@ -159,11 +159,11 @@ export const api = {
         setSession(r);
         return r;
       }
-      if (r === 'incorrecta') throw new Error('Correo o contrasena incorrectos');
+      if (r === 'incorrecta') throw new Error('Correo o contraseña incorrectos');
       throw new Error('Sin conexion: la primera vez en este equipo se necesita internet para iniciar sesion');
     }
 
-    if (!res.ok) throw new Error('Correo o contrasena incorrectos');
+    if (!res.ok) throw new Error('Correo o contraseña incorrectos');
     const session = (await res.json()) as Session;
     setSession(session);
     void guardarCredencial(email, password, session).catch(() => {});

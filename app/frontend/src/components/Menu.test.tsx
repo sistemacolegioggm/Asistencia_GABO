@@ -27,14 +27,14 @@ describe('Menu', () => {
     expect(screen.getByRole('link', { name: /asistencia/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /horario/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /calendario/i })).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /administracion/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /administración/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /tablero/i })).not.toBeInTheDocument();
   });
 
   it('el administrador lo ve todo', () => {
     sesion('ADMIN');
     pintar();
-    expect(screen.getByRole('link', { name: /administracion/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /administración/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /tablero/i })).toBeInTheDocument();
   });
 
@@ -47,7 +47,7 @@ describe('Menu', () => {
     expect(screen.queryByRole('link', { name: /^ingreso/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /consultas/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /tablero/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /administracion/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /administración/i })).not.toBeInTheDocument();
   });
 
   it('ofrece cerrar sesion', async () => {
@@ -59,7 +59,7 @@ describe('Menu', () => {
   it('en pantalla estrecha el menu se abre y se cierra', async () => {
     sesion('DOCENTE');
     pintar();
-    const abrir = screen.getByRole('button', { name: /abrir menu/i });
+    const abrir = screen.getByRole('button', { name: /abrir menú/i });
     await userEvent.click(abrir);
     expect(screen.getByRole('navigation')).toHaveAttribute('data-abierto', 'true');
     await userEvent.click(screen.getByRole('button', { name: /cerrar menu/i }));

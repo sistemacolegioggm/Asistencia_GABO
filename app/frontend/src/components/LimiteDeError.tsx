@@ -23,7 +23,7 @@ export default class LimiteDeError extends Component<Props, State> {
 
     return (
       <main className="card">
-        <h1>Algo fallo en la aplicacion</h1>
+        <h1>Algo falló en la aplicación</h1>
         <p role="alert">
           <strong>La asistencia que ya marco no se perdio</strong>: esta guardada en el
           telefono y se enviara sola cuando vuelva a abrir la aplicacion.
