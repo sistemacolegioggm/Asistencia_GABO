@@ -138,15 +138,16 @@ public class AttendanceController {
                            LocalDate classDate, Long total, String recordedByName, Instant lastRecordedAt) {}
 
     /**
-     * Las ultimas tomas de asistencia, para el panel lateral de /asistencia. Un docente ve
-     * solo las de los bloques que dicta; coordinacion y administracion ven las de todos,
-     * que es a quienes les llegan los reclamos de cursos que no dictan.
+     * Las ultimas tomas de asistencia, para el panel lateral de /asistencia. Sin fecha, un
+     * docente ve solo las de los bloques que dicta. Con fecha, ve todas las tomas de ese dia,
+     * de cualquier docente (el colegio es de todos los docentes). Coordinacion y administracion
+     * siempre ven las de todos.
      */
     @GetMapping("/recientes")
     public List<SesionDto> recientes(@RequestParam(defaultValue = "15") int limite,
                                      @RequestParam(required = false) LocalDate fecha) {
         String role = currentRole();
-        Long teacherId = ("ADMIN".equals(role))
+        Long teacherId = ("ADMIN".equals(role) || fecha != null)
                 ? null : JwtService.currentUserId();
         return repo.ultimasSesiones(teacherId, fecha, Math.min(Math.max(limite, 1), 100)).stream()
                 .map(r -> new SesionDto(r.getBlockId(), r.getGrade(), r.getBlockNo(), r.getSubject(),
