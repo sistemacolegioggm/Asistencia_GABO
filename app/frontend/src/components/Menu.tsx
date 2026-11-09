@@ -105,7 +105,7 @@ export default function Menu() {
         <Version />
         <button type="button" className="secundario"
                 onClick={() => { clearSession(); location.href = '/login'; }}>
-          Cerrar sesion
+          Cerrar sesión
         </button>
       </nav>
     </>

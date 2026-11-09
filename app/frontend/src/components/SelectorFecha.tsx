@@ -48,7 +48,7 @@ export default function SelectorFecha({ valor, onChange, max }: Props) {
       </div>
       {consultado && !lectivo && !dia && finDeSemana(valor) && (
         <p role="status" className="banner no-lectivo ocupa-todo">
-          Hoy es {nombreDia(valor)}, descansa: no hay clase. Las clases vuelven en el siguiente día de clase.
+          {valor === new Date().toLocaleDateString('en-CA') ? 'Hoy es' : 'Ese día es'} {nombreDia(valor)}. No hay clase: descanse. Las clases vuelven en el siguiente día de clase.
         </p>
       )}
       {consultado && !lectivo && (dia || !finDeSemana(valor)) && (

@@ -76,7 +76,7 @@ describe('TomarAsistencia', () => {
 
   it('sin curso elegido no muestra estudiantes', async () => {
     render(<MemoryRouter><TomarAsistencia /></MemoryRouter>);
-    expect(await screen.findByText(/elija curso y bloque/i)).toBeInTheDocument();
+    expect(await screen.findByText('Para enviar, elija un curso y un bloque.')).toBeInTheDocument();
   });
 
   it('al elegir curso y bloque muestra solo los estudiantes de ese curso', async () => {
@@ -128,7 +128,7 @@ describe('TomarAsistencia', () => {
     const botonPresente = within(grupo).getByRole('button', { name: /presente/i });
     const botonFalta = within(grupo).getByRole('button', { name: /falta/i });
     expect(within(grupo).getByRole('button', { name: /^tarde$/i })).toBeInTheDocument();
-    expect(within(grupo).getByRole('button', { name: /^evasion$/i })).toBeInTheDocument();
+    expect(within(grupo).getByRole('button', { name: /^evasión$/i })).toBeInTheDocument();
 
     // Sin marcar nada, Presente queda seleccionado por defecto: el nombre
     // accesible ya lleva la marca de verificacion, no solo el color de fondo.
@@ -296,8 +296,8 @@ describe('TomarAsistencia', () => {
     await waitFor(() => expect(screen.getByLabelText(/curso/i)).toBeInTheDocument());
     await userEvent.clear(screen.getByLabelText(/fecha/i));
     await userEvent.type(screen.getByLabelText(/fecha/i), '2026-08-16');   // domingo
-    await waitFor(() => expect(screen.getAllByText(/descansa/i)).toHaveLength(1));
-    expect(screen.getByText('La fecha elegida no es un día lectivo.')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getAllByText(/descanse/i)).toHaveLength(1));
+    expect(screen.queryByText('La fecha elegida no es un día lectivo.')).toBeNull();
     expect(screen.queryByText('Para enviar, elija un curso y un bloque.')).toBeNull();
   });
 
@@ -367,22 +367,22 @@ describe('TomarAsistencia', () => {
     });
   });
 
-  it('al marcar evasion aparece el campo de motivo', async () => {
+  it('al marcar evasión aparece el campo de motivo', async () => {
     await elegirCursoYBloque();
 
     const grupo = screen.getByRole('group', { name: /ANA LOPEZ/i });
-    await userEvent.click(within(grupo).getByRole('button', { name: /evasion/i }));
+    await userEvent.click(within(grupo).getByRole('button', { name: /evasión/i }));
 
     const motivo = await screen.findByLabelText(/motivo/i);
     await userEvent.type(motivo, 'Se salio con otro companero');
     expect(motivo).toHaveValue('Se salio con otro companero');
   });
 
-  it('el motivo de una evasion llega en el envio', async () => {
+  it('el motivo de una evasión llega en el envio', async () => {
     await elegirCursoYBloque();
 
     const grupo = screen.getByRole('group', { name: /ANA LOPEZ/i });
-    await userEvent.click(within(grupo).getByRole('button', { name: /evasion/i }));
+    await userEvent.click(within(grupo).getByRole('button', { name: /evasión/i }));
     await userEvent.type(await screen.findByLabelText(/motivo/i), 'Se salio con otro companero');
     await userEvent.tab();
 
@@ -395,11 +395,11 @@ describe('TomarAsistencia', () => {
     });
   });
 
-  it('pasar de evasion a presente borra el motivo', async () => {
+  it('pasar de evasión a presente borra el motivo', async () => {
     await elegirCursoYBloque();
 
     const grupo = screen.getByRole('group', { name: /ANA LOPEZ/i });
-    await userEvent.click(within(grupo).getByRole('button', { name: /evasion/i }));
+    await userEvent.click(within(grupo).getByRole('button', { name: /evasión/i }));
     await userEvent.type(await screen.findByLabelText(/motivo/i), 'Se salio con otro companero');
     await userEvent.tab();
     await userEvent.click(within(grupo).getByRole('button', { name: /presente/i }));
