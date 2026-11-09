@@ -285,8 +285,8 @@ export default function TomarAsistencia() {
         new Promise<boolean>((r) => setTimeout(() => r(true), LIMITE_ENVIO_MS)),
       ]);
       if (lento) {
-        setAvisoEnvio(`Lista de ${students.length} estudiantes guardada en el telefono.`
-          + ' La conexion esta muy lenta; se subira sola cuando mejore.');
+        setAvisoEnvio(`Lista de ${students.length} estudiantes guardada en el teléfono.`
+          + ' La conexión está muy lenta; se subirá sola cuando mejore.');
         setConfirmacion({ tipo: 'lento', titulo: 'Tu internet está muy lento',
           detalle: 'Pero tranquilo: la lista ya quedó guardada en el teléfono y se subirá sola cuando tengas mejor señal.' });
         subida.then(({ pending, alcanzable: hay }) => { setPendientes(pending); setAlcanzable(hay); })
@@ -304,21 +304,29 @@ export default function TomarAsistencia() {
         setAvisoEnvio(`Lista de ${students.length} estudiantes enviada al servidor.`);
         setConfirmacion({ tipo: 'ok', titulo: 'Asistencia enviada', detalle });
       } else if (!hay) {
-        setAvisoEnvio(`Lista de ${students.length} estudiantes guardada en el telefono.`
-          + ' Se subira sola cuando haya conexion.');
+        setAvisoEnvio(`Lista de ${students.length} estudiantes guardada en el teléfono.`
+          + ' Se subirá sola cuando haya conexión.');
         setConfirmacion({ tipo: 'offline', titulo: 'Guardada sin internet',
-          detalle: `${detalle}. Se enviara sola cuando vuelva la conexion.` });
+          detalle: `${detalle}. Se enviará sola cuando vuelva la conexión.` });
       } else {
-        setAvisoEnvio(`El servidor rechazo ${pending} ${pending === 1 ? 'registro' : 'registros'};`
-          + ' se reintentara solo.');
-        setConfirmacion({ tipo: 'error', titulo: 'No se envio todo',
-          detalle: `El servidor rechazo ${pending} ${pending === 1 ? 'registro' : 'registros'}. Se reintentara solo.` });
+        setAvisoEnvio(`El servidor rechazó ${pending} ${pending === 1 ? 'registro' : 'registros'};`
+          + ' se reintentará solo.');
+        setConfirmacion({ tipo: 'error', titulo: 'No se envió todo',
+          detalle: `El servidor rechazó ${pending} ${pending === 1 ? 'registro' : 'registros'}. Se reintentará solo.` });
       }
     } catch (e) {
       setConfirmacion(null);
       setError(e instanceof Error ? e.message : 'No se pudo enviar');
     }
   }
+
+  const motivoDeshabilitado = blockId === null
+    ? 'Para enviar, elija un curso y un bloque.'
+    : !lectivo
+      ? 'La fecha elegida no es un día lectivo.'
+      : students.length === 0
+        ? 'Este curso no tiene estudiantes descargados.'
+        : '';
 
   return (
    <div className="asistencia-2col">
@@ -349,7 +357,7 @@ export default function TomarAsistencia() {
           <option value="">Seleccione...</option>
           {bloquesDelGrado.map((b) => (
             <option key={b.id} value={b.id}>
-              {b.blockNo}. {b.subject} ({b.startTime}) · Dia {b.weekday}
+              Bloque {b.blockNo}. {b.subject} ({b.startTime})
             </option>
           ))}
         </select>
@@ -372,7 +380,7 @@ export default function TomarAsistencia() {
       {!lectivo
         ? (esFinDeSemana(fecha)
           ? <p className="descanso" role="status">
-              Hoy es {nombreDia(fecha)}, descansa: no hay clase. Las clases vuelven el lunes.
+              Hoy es {nombreDia(fecha)}, descansa: no hay clase. Las clases vuelven en el siguiente día de clase.
             </p>
           : <p className="meta">Elija un dia lectivo para tomar asistencia.</p>)
         : blockId === null
@@ -419,6 +427,7 @@ export default function TomarAsistencia() {
               disabled={blockId === null || !lectivo || students.length === 0}>
         Enviar asistencia ({students.length})
       </button>
+      {motivoDeshabilitado && <p className="meta" role="status">{motivoDeshabilitado}</p>}
 
     </main>
 

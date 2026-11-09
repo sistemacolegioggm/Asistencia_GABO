@@ -4,7 +4,7 @@ import type { SchoolDay } from '../api/contract';
 
 const ETIQUETA_TIPO: Record<string, string> = {
   FESTIVO: 'festivo', VACACIONES: 'vacaciones',
-  INSTITUCIONAL: 'jornada institucional', SUSPENDIDO: 'dia suspendido',
+  INSTITUCIONAL: 'jornada institucional', SUSPENDIDO: 'día suspendido',
 };
 
 type Props = { valor: string; onChange: (fecha: string) => void; max: string };
@@ -48,15 +48,14 @@ export default function SelectorFecha({ valor, onChange, max }: Props) {
       </div>
       {consultado && !lectivo && !dia && finDeSemana(valor) && (
         <p role="status" className="banner no-lectivo ocupa-todo">
-          Hoy es {nombreDia(valor)}, descansa: no hay clase. Las clases vuelven el lunes.
+          Hoy es {nombreDia(valor)}, descansa: no hay clase. Las clases vuelven en el siguiente día de clase.
         </p>
       )}
       {consultado && !lectivo && (dia || !finDeSemana(valor)) && (
-        <p role="alert" className="banner no-lectivo ocupa-todo">
+        <p role="status" className="banner no-lectivo ocupa-todo">
           {dia
-            ? `El ${new Date(`${valor}T00:00`).toLocaleDateString('es-CO')} es ${ETIQUETA_TIPO[dia.dayType] ?? 'no lectivo'}`
-              + (dia.description ? ` (${dia.description}).` : '.') + ' No se toma asistencia.'
-            : 'Esa fecha no esta en el calendario descargado. Actualice los datos con conexion.'}
+            ? `Ese día es ${ETIQUETA_TIPO[dia.dayType] ?? 'no lectivo'}: no hay clase. No se toma asistencia.`
+            : 'No tenemos el calendario de ese día. Conéctese a internet y vuelva a abrir la app.'}
         </p>
       )}
     </>
