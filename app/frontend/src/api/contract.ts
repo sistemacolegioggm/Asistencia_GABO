@@ -58,7 +58,7 @@ export const ESTADOS: { valor: Status; etiqueta: string; color: string }[] = [
   { valor: 'P', etiqueta: 'Presente', color: '#14663b' },
   { valor: 'T', etiqueta: 'Tarde',    color: '#e07b24' },
   { valor: 'F', etiqueta: 'Falta',    color: '#c8503c' },
-  { valor: 'E', etiqueta: 'Evasion',  color: '#7a5ea8' },
+  { valor: 'E', etiqueta: 'Evasión',  color: '#7a5ea8' },
 ];
 
 /** Una toma de asistencia ya hecha (bloque + fecha), para el panel lateral de /asistencia. */

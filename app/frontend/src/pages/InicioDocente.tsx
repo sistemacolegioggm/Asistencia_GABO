@@ -45,7 +45,7 @@ const DIAS_SEMANA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'vier
 function textoSinClase(dia: Dia): string {
   if (dia.motivo) return `Hoy no hay clase: ${dia.motivo}.`;
   const d = new Date(`${dia.fecha}T12:00`).getDay();
-  return [0, 6].includes(d) ? `Hoy es ${DIAS_SEMANA[d]}, descansa: no hay clase.` : 'Hoy no hay clase.';
+  return [0, 6].includes(d) ? `Hoy es ${DIAS_SEMANA[d]}. No hay clase: descanse.` : 'Hoy no hay clase.';
 }
 
 export default function InicioDocente() {
@@ -150,7 +150,7 @@ export default function InicioDocente() {
         {errorPendientes && <p role="alert" className="error">{errorPendientes}</p>}
         {!pendientes && !errorPendientes && <p className="meta">Cargando...</p>}
         {pendientes && pendientes.grupos.length === 0 && (
-          <p className="meta">No tiene listas pendientes de dias anteriores.</p>
+          <p className="meta">No tiene listas pendientes de días anteriores.</p>
         )}
         {pendientes && pendientes.grupos.length > 0 && (
           <>

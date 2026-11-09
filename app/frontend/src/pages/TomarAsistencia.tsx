@@ -318,7 +318,7 @@ export default function TomarAsistencia() {
   }
 
   const motivoDeshabilitado = !lectivo
-    ? 'La fecha elegida no es un día lectivo.'
+    ? ''
     : blockId === null
       ? 'Para enviar, elija un curso y un bloque.'
       : students.length === 0
@@ -331,7 +331,7 @@ export default function TomarAsistencia() {
       {confirmacion && <AvisoEnvio {...confirmacion} onCerrar={cerrarConfirmacion} />}
       <BannerEstado online={online} alcanzable={alcanzable} pendientes={pendientes} onSincronizar={enviar} />
 
-      <span className="eyebrow">Planilla del dia</span>
+      <span className="eyebrow">Planilla del día</span>
       <h1>Asistencia a clase</h1>
 
       {cargado && grados.length === 0 && (
@@ -366,7 +366,7 @@ export default function TomarAsistencia() {
         <label className="bloque-doble">
           <input type="checkbox" checked={dobleActivo}
                  onChange={(e) => setDobleActivo(e.target.checked)} />
-          Tambien registrar en el bloque {siguiente.blockNo} ({siguiente.startTime}) - bloque doble
+          También registrar en el bloque {siguiente.blockNo} ({siguiente.startTime}): bloque doble
         </label>
       )}
 
@@ -377,7 +377,7 @@ export default function TomarAsistencia() {
       {!lectivo
         ? null
         : blockId === null
-          ? <p>Elija curso y bloque para tomar la asistencia.</p>
+          ? null
           : (
             <ul className="estudiantes">
               {students.map((s) => (
@@ -411,7 +411,7 @@ export default function TomarAsistencia() {
 
       {blockId !== null && lectivo && students.length > 0 && (
         <p className="meta">
-          Se registraran los {students.length} estudiantes del curso. Los que no haya
+          Se registrarán los {students.length} estudiantes del curso. Los que no haya
           cambiado quedan como presentes.
         </p>
       )}
@@ -429,7 +429,7 @@ export default function TomarAsistencia() {
          toca facil. En escritorio queda abierto como panel lateral de siempre. */}
      <details open={!esMovil}>
       <summary>
-        <span className="eyebrow">Ultimos llamados de lista</span>
+        <span className="eyebrow">Últimos llamados de lista</span>
         <h2>Asistencia registrada</h2>
       </summary>
 

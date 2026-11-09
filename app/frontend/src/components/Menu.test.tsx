@@ -50,10 +50,10 @@ describe('Menu', () => {
     expect(screen.queryByRole('link', { name: /administración/i })).not.toBeInTheDocument();
   });
 
-  it('ofrece cerrar sesion', async () => {
+  it('ofrece cerrar sesión', async () => {
     sesion('DOCENTE');
     pintar();
-    expect(screen.getByRole('button', { name: /cerrar sesion/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /cerrar sesión/i })).toBeInTheDocument();
   });
 
   it('en pantalla estrecha el menu se abre y se cierra', async () => {

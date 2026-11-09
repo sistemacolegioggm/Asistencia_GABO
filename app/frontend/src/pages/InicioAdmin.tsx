@@ -180,7 +180,7 @@ export default function InicioAdmin() {
           {hoy && (
             <p className="cabecera-resumen">
               {hoy.lectivo
-                ? <>Hoy es dia lectivo. Se esperan <strong>{hoy.bloquesEsperados}</strong> llamados
+                ? <>Hoy es día lectivo. Se esperan <strong>{hoy.bloquesEsperados}</strong> llamados
                     de lista y van <strong>{hoy.bloquesMarcados}</strong>
                     {faltan > 0 ? <> — faltan <strong>{faltan}</strong> por reportar.</> : '.'}
                     {' '}Hasta ahora hay <strong>{hoy.ausentes}</strong> ausencias,{' '}
