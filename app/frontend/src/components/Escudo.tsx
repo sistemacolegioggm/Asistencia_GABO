@@ -14,7 +14,7 @@ export default function Escudo({ size = 44 }: { size?: number }) {
       src="/escudo.png"
       width={size}
       height={size}
-      alt="Escudo del Colegio Gabriel Garcia Marquez"
+      alt="Escudo del Colegio Gabriel García Márquez"
       style={{ objectFit: 'contain', display: 'block' }}
     />
   );
