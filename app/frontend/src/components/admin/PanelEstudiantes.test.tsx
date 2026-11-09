@@ -89,6 +89,6 @@ describe('PanelEstudiantes', () => {
   it('si la lista no carga lo dice en vez de quedarse vacia', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => { throw new TypeError('network'); }));
     render(<PanelEstudiantes />);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/no se pudo cargar/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/sin conexión|no se pudo consultar/i);
   });
 });

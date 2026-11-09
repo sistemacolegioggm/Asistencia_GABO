@@ -98,7 +98,7 @@ describe('Calendario', () => {
     vi.stubGlobal('fetch', vi.fn(async () => { throw new TypeError('network'); }));
     render(<MemoryRouter><Calendario hoy={HOY} /></MemoryRouter>);
     await waitFor(() =>
-      expect(screen.getByRole('alert')).toHaveTextContent(/no se pudo cargar/i));
+      expect(screen.getByRole('alert')).toHaveTextContent(/no hay datos del calendario|Conéctese/i));
   });
 
   it('pinta agosto de 2026 aunque el reloj del sistema diga otra cosa', async () => {

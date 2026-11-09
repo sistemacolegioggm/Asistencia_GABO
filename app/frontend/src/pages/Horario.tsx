@@ -1,3 +1,4 @@
+import { mensajeConsulta } from '../lib/errorConsulta';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, getSession } from '../api/client';
@@ -58,17 +59,17 @@ export default function Horario() {
     const sinFiltros = params === '';
     api.get<Bloque[]>(`/api/schedule/week${params}`)
        .then((b) => { if (vigente) { setBloques(b); } })
-       .catch(async () => {
+       .catch(async (e) => {
          if (!vigente) return;
          if (!sinFiltros) {
-           setError('No se pudo cargar el horario. Requiere conexion.');
+           setError(mensajeConsulta(e));
            setCargando(false);
            return;
          }
          const bloquesLocales = await Promise.resolve().then(() => db.blocks.toArray()).catch(() => []);
          if (!vigente) return;
          if (bloquesLocales.length === 0) {
-           setError('No se pudo cargar el horario. Requiere conexion.');
+           setError(mensajeConsulta(e));
            return;
          }
          const mapeados: Bloque[] = bloquesLocales.map((b) => ({

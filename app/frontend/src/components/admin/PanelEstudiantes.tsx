@@ -1,3 +1,4 @@
+import { mensajeConsulta } from '../../lib/errorConsulta';
 import { useEffect, useRef, useState } from 'react';
 import { api, AVISO_ENCOLADO } from '../../api/client';
 import type { StudentAdmin } from '../../api/contract';
@@ -81,8 +82,8 @@ export default function PanelEstudiantes() {
                busqueda && `query=${encodeURIComponent(busqueda)}`].filter(Boolean).join('&');
     try {
       setEstudiantes(await api.get<StudentAdmin[]>(`/api/admin/students${q ? `?${q}` : ''}`));
-    } catch {
-      setError('No se pudo cargar la lista. Requiere conexion.');
+    } catch (e) {
+      setError(mensajeConsulta(e));
     } finally {
       setCargando(false);
     }

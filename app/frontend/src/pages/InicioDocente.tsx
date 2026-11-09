@@ -1,3 +1,4 @@
+import { mensajeConsulta } from '../lib/errorConsulta';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, getSession } from '../api/client';
@@ -60,11 +61,11 @@ export default function InicioDocente() {
            ({ ...b, marcados: Math.max(b.marcados, await enCola(b.id, hoy)) })));
          if (montado) { setDia({ ...d, bloques }); }
        })
-       .catch(async () => {
+       .catch(async (e) => {
          if (!montado) return;
          const diaLocal = await Promise.resolve().then(() => db.schoolDays.get(hoy)).catch(() => undefined);
          if (!diaLocal) {
-           setError('No se pudo consultar el dia. Requiere conexion.');
+           setError(mensajeConsulta(e));
            return;
          }
          if (diaLocal.dayType !== 'LECTIVO' && diaLocal.dayType !== 'DIA_CERO') {
