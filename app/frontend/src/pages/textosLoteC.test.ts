@@ -4,8 +4,8 @@ import { describe, expect, it } from 'vitest';
 const leer = (ruta: string) => readFileSync(new URL(ruta, import.meta.url), 'utf8');
 
 describe('textos del lote C', () => {
-  it('los cuatro tableros ya no dicen "Requiere conexion"', () => {
-    for (const f of ['InicioAdmin.tsx', 'Consultas.tsx', 'Dashboard.tsx', '../components/Menu.tsx']) {
+  it('las pantallas ya no dicen "Requiere conexion"', () => {
+    for (const f of ['InicioAdmin.tsx', 'Consultas.tsx', 'Dashboard.tsx', '../components/Menu.tsx', 'CursoDia.tsx', 'Calendario.tsx', 'Horario.tsx', 'InicioDocente.tsx', '../components/admin/PanelEstudiantes.tsx']) {
       expect(leer(f), f).not.toContain('Requiere conexion');
     }
   });

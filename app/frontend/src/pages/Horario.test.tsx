@@ -72,7 +72,7 @@ describe('Horario', () => {
     vi.stubGlobal('fetch', vi.fn(async () => { throw new TypeError('network'); }));
     pintar();
     await waitFor(() =>
-      expect(screen.getByRole('alert')).toHaveTextContent(/no se pudo cargar/i));
+      expect(screen.getByRole('alert')).toHaveTextContent(/sin conexión|no se pudo consultar/i));
   });
 });
 

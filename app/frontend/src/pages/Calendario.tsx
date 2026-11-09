@@ -72,7 +72,7 @@ export default function Calendario({ hoy = new Date() }: { hoy?: Date }) {
       if (lista.length > 0) {
         setDias(Object.fromEntries(lista.map((d) => [d.calendarDate, d])));
       } else {
-        setError('No se pudo cargar el calendario. Requiere conexion.');
+        setError('No hay datos del calendario en este equipo. Conéctese a internet y vuelva a abrir la página.');
       }
     } finally {
       setCargando(false);

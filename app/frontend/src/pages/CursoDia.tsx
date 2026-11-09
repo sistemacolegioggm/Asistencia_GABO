@@ -1,3 +1,4 @@
+import { mensajeConsulta } from '../lib/errorConsulta';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api/client';
@@ -122,7 +123,7 @@ export default function CursoDia() {
     setCargando(true);
     api.get<Respuesta>(`/api/reports/semana?grade=${encodeURIComponent(grade)}&from=${fecha}&to=${fecha}`)
       .then(setDatos)
-      .catch(() => setError('No se pudo cargar el curso. Requiere conexion.'))
+      .catch((e) => setError(mensajeConsulta(e)))
       .finally(() => setCargando(false));
   }, [grade, fecha]);
 
