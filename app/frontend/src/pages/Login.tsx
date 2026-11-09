@@ -4,13 +4,14 @@ import { api } from '../api/client';
 import Escudo from '../components/Escudo';
 import BotonInstalar from '../components/BotonInstalar';
 import AvisoServidorLento from '../components/AvisoServidorLento';
-import { pedirPermisoAlEntrar, sincronizarSiConcedido } from '../push/avisos';
+import { estado, pedirPermisoAlEntrar, sincronizarSiConcedido } from '../push/avisos';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [avisos] = useState(() => estado());
   const navigate = useNavigate();
 
   async function submit(e: React.FormEvent) {
@@ -25,7 +26,7 @@ export default function Login() {
       void sincronizarSiConcedido();
       navigate('/');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'No fue posible iniciar sesion');
+      setError(err instanceof Error ? err.message : 'No fue posible iniciar sesión');
     } finally {
       setBusy(false);
     }
@@ -46,10 +47,15 @@ export default function Login() {
         <label htmlFor="email">Correo institucional</label>
         <input id="email" type="email" autoComplete="username" required
                value={email} onChange={(e) => setEmail(e.target.value)} />
-        <label htmlFor="password">Contrasena</label>
+        <label htmlFor="password">Contraseña</label>
         <input id="password" type="password" autoComplete="current-password" required
                value={password} onChange={(e) => setPassword(e.target.value)} />
         {error && <p role="alert" className="error">{error}</p>}
+        {avisos === 'pendiente' && (
+          <p className="meta">
+            Para avisarle cuando falte tomar lista, el navegador le pedirá permiso. Toque Permitir.
+          </p>
+        )}
         <button type="submit" disabled={busy}>{busy ? 'Entrando...' : 'Entrar'}</button>
         <BotonInstalar />
         <p><Link to="/">« Volver al inicio</Link></p>

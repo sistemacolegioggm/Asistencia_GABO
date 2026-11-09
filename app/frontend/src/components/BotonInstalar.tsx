@@ -44,8 +44,7 @@ export default function BotonInstalar() {
   if (esIOS()) {
     return (
       <p className="instalar meta">
-        Para usarla sin señal: pulse <strong>Compartir</strong> en Safari y luego{' '}
-        <strong>Añadir a pantalla de inicio</strong>.
+        Para usarla sin señal: toque el botón Compartir de Safari y luego Añadir a pantalla de inicio.
       </p>
     );
   }
@@ -54,8 +53,7 @@ export default function BotonInstalar() {
   // esta la opcion en el menu, para que no parezca que la app no se puede instalar.
   return (
     <p className="instalar meta">
-      Para usarla sin señal: abra el menú del navegador (⋮) y elija{' '}
-      <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.
+      Para usarla sin señal: toque los tres puntos arriba a la derecha y elija Instalar aplicación o Añadir a pantalla de inicio.
     </p>
   );
 }

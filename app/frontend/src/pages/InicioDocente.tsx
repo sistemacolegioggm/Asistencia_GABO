@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { api, getSession } from '../api/client';
 import { db } from '../db/local';
 import AvisosTomaLista from '../components/AvisosTomaLista';
+import BotonInstalar from '../components/BotonInstalar';
 
 type Bloque = {
   id: number; blockNo: number; grade: string; subject: string; room?: string;
@@ -93,6 +94,7 @@ export default function InicioDocente() {
       <h1>Hola, {getSession()?.fullName}</h1>
 
       <AvisosTomaLista />
+      <BotonInstalar />
       {error && <p role="alert" className="error">{error}</p>}
       {!dia && !error && <p className="meta">Cargando...</p>}
 

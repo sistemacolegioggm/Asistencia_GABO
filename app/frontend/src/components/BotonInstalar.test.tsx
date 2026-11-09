@@ -28,3 +28,13 @@ describe('BotonInstalar', () => {
     expect(screen.getByText(/pantalla de inicio/i)).toBeInTheDocument();
   });
 });
+
+describe('BotonInstalar textos', () => {
+  it('no menciona el menú del navegador ni el símbolo ⋮', () => {
+    vi.stubGlobal('navigator', { ...navigator, userAgent: 'Android Chrome' });
+    const { container } = render(<BotonInstalar />);
+    expect(container.textContent).toContain('toque los tres puntos arriba a la derecha');
+    expect(container.textContent).not.toContain('menú del navegador');
+    expect(container.textContent).not.toContain('⋮');
+  });
+});
