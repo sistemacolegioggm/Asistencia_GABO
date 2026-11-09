@@ -65,11 +65,13 @@ public interface AttendanceRepository extends JpaRepository<Attendance, UUID> {
               LEFT JOIN users ru ON ru.id = a.recorded_by
              WHERE a.deleted_at IS NULL
                AND (:teacherId IS NULL OR sb.teacher_id = :teacherId)
+               AND (CAST(:fecha AS date) IS NULL OR a.class_date = CAST(:fecha AS date))
              GROUP BY a.schedule_block_id, sb.grade, sb.block_no, su.name, a.class_date
              ORDER BY a.class_date DESC, max(a.recorded_at) DESC
              LIMIT :limite
             """, nativeQuery = true)
-    List<SesionRow> ultimasSesiones(@Param("teacherId") Long teacherId, @Param("limite") int limite);
+    List<SesionRow> ultimasSesiones(@Param("teacherId") Long teacherId, @Param("fecha") LocalDate fecha,
+                                    @Param("limite") int limite);
 
     /** Actualiza la marca existente de ese estudiante/bloque/fecha. Devuelve 1 si actualizo algo. */
     @Modifying

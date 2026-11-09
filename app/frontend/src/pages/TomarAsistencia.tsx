@@ -109,10 +109,10 @@ export default function TomarAsistencia() {
   }, [fecha]);
 
   useEffect(() => {
-    void api.get<AttendanceSesion[]>('/api/attendance/recientes')
+    void api.get<AttendanceSesion[]>(`/api/attendance/recientes?fecha=${fecha}&limite=100`)
       .then(setSesiones)
       .catch(() => setSesiones([]));   // sin conexion el panel queda vacio, no rompe la planilla
-  }, [pendientes]);
+  }, [pendientes, fecha]);
 
 
   // Se llega aqui desde el horario con ?bloque=N. Se preselecciona el curso y el bloque
@@ -429,11 +429,11 @@ export default function TomarAsistencia() {
          toca facil. En escritorio queda abierto como panel lateral de siempre. */}
      <details open={!esMovil}>
       <summary>
-        <span className="eyebrow">Últimos llamados de lista</span>
+        <span className="eyebrow">Tomas de lista del día</span>
         <h2>Asistencia registrada</h2>
       </summary>
 
-      {sesiones.length === 0 && <p className="meta">Todavia no hay tomas de lista registradas.</p>}
+      {sesiones.length === 0 && <p className="meta">No hay tomas de lista registradas el {new Date(`${fecha}T00:00`).toLocaleDateString('es-CO')}.</p>}
 
       <ul className="sesiones-lista">
         {sesiones.map((se) => (
