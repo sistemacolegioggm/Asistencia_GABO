@@ -628,7 +628,7 @@ describe('TomarAsistencia: panel de ultimos llamados', () => {
     await db.meta.clear();
     vi.stubGlobal('fetch', vi.fn(async () => { throw new TypeError('network'); }));
     render(<MemoryRouter><TomarAsistencia /></MemoryRouter>);
-    expect(await screen.findByText(/todavia no hay tomas de lista/i)).toBeInTheDocument();
+    expect(await screen.findByText(/no hay tomas de lista registradas/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/curso/i)).toBeInTheDocument();
   });
 

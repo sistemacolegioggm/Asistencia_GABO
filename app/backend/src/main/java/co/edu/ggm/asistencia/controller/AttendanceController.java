@@ -143,11 +143,12 @@ public class AttendanceController {
      * que es a quienes les llegan los reclamos de cursos que no dictan.
      */
     @GetMapping("/recientes")
-    public List<SesionDto> recientes(@RequestParam(defaultValue = "15") int limite) {
+    public List<SesionDto> recientes(@RequestParam(defaultValue = "15") int limite,
+                                     @RequestParam(required = false) LocalDate fecha) {
         String role = currentRole();
         Long teacherId = ("ADMIN".equals(role))
                 ? null : JwtService.currentUserId();
-        return repo.ultimasSesiones(teacherId, Math.min(Math.max(limite, 1), 50)).stream()
+        return repo.ultimasSesiones(teacherId, fecha, Math.min(Math.max(limite, 1), 100)).stream()
                 .map(r -> new SesionDto(r.getBlockId(), r.getGrade(), r.getBlockNo(), r.getSubject(),
                         r.getClassDate(), r.getTotal(), r.getRecordedByName(), r.getLastRecordedAt()))
                 .toList();
