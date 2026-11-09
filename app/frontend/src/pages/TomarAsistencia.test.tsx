@@ -291,6 +291,16 @@ describe('TomarAsistencia', () => {
     expect(screen.getByRole('button', { name: /enviar asistencia \(2\)/i })).toBeInTheDocument();
   });
 
+  it('en domingo el aviso de descanso sale una sola vez y no pide elegir bloque', async () => {
+    render(<MemoryRouter><TomarAsistencia /></MemoryRouter>);
+    await waitFor(() => expect(screen.getByLabelText(/curso/i)).toBeInTheDocument());
+    await userEvent.clear(screen.getByLabelText(/fecha/i));
+    await userEvent.type(screen.getByLabelText(/fecha/i), '2026-08-16');   // domingo
+    await waitFor(() => expect(screen.getAllByText(/descansa/i)).toHaveLength(1));
+    expect(screen.getByText('La fecha elegida no es un día lectivo.')).toBeInTheDocument();
+    expect(screen.queryByText('Para enviar, elija un curso y un bloque.')).toBeNull();
+  });
+
   it('sin bloque elegido no ofrece enviar', async () => {
     render(<MemoryRouter><TomarAsistencia /></MemoryRouter>);
     await waitFor(() => expect(screen.getByLabelText(/curso/i)).toBeInTheDocument());
